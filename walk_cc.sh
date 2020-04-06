@@ -1,16 +1,19 @@
 #!/bin/bash
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-export FILE_LIST=./filelist
-export FILE_PATTERN="[.]java"
-export RULES=$SCRIPT_DIR/cc.xml
+
+. $SCRIPT_DIR/get_pmd.sh 
+
+FILE_LIST=./filelist
+FILE_PATTERN="[.]java"
+RULES=$SCRIPT_DIR/cc.xml
 
 function files_matching_pattern {
 	commit=$1
 	pattern=$2
 	git diff-tree --no-commit-id --name-only --diff-filter=d -r $commit | grep $pattern > $FILE_LIST
-   count=`wc -l < $FILE_LIST`
-   echo $count
+	count=`wc -l < $FILE_LIST`
+	echo $count
 }
 
 function review {
@@ -19,8 +22,8 @@ function review {
 	file_count=$(files_matching_pattern $commit $pattern)
 	if [ $file_count -gt 0 ]
 	then
-   	cat $FILE_LIST
-	   pmd -filelist $FILE_LIST -R $RULES -f text 2> /dev/null
+   		cat $FILE_LIST
+		$SCRIPT_DIR/pmd-bin-*/bin/run.sh pmd -filelist $FILE_LIST -R $RULES -f text
 	else
 		echo "No files matching '$2'"
 	fi
