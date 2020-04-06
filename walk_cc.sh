@@ -44,6 +44,7 @@ function walk {
 function restore {
 	git checkout .
 	git checkout master &> /dev/null
+	rm filelist
 }
 
 walk $FILE_PATTERN
