@@ -9,7 +9,7 @@ FILE_LIST=./filelist
 FILE_PATTERN="[.]java"
 RULES=$SCRIPT_DIR/$1
 
-function review() {
+function review {
   commit=$1
   pattern=$2
 

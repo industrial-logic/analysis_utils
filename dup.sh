@@ -8,14 +8,6 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 FILE_LIST=./filelist
 FILE_PATTERN="[.]java"
 
-function files_matching_pattern {
-	commit=$1
-	pattern=$2
-	git diff-tree --no-commit-id --name-only --diff-filter=d -r $commit | grep $pattern > $FILE_LIST
-	count=`wc -l < $FILE_LIST`
-	echo $count
-}
-
 function review {
 	commit=$1
 	pattern=$2
