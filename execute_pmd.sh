@@ -5,7 +5,10 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 . "${SCRIPT_DIR}/get_pmd.sh"
-. "${SCRIPT_DIR}/git_utils.sh"
-. "${SCRIPT_DIR}/execute_pmd.sh" "$@"
 
-git_walk
+RULES="${SCRIPT_DIR}/${1}"
+
+function check_code() {
+  "$(pmd_run)" pmd -d ./src -R "$RULES" -f text 2>/dev/null
+}
+
