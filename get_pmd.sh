@@ -8,11 +8,11 @@ function latest_pmd {
 
 
 
-PMD_DIR=$(find $SCRIPT_DIR -maxdepth 1 -type d -name "pmd*")
+PMD_DIR=$(find "$SCRIPT_DIR" -maxdepth 1 -type d -name "pmd*")
 if [ -z $PMD_DIR ]; then
-	pushd $SCRIPT_DIR > /dev/null
-	curl --silent -L -O $(latest_pmd)
+	pushd "$SCRIPT_DIR" > /dev/null || exit
+	curl --silent -L -O "$(latest_pmd)"
 	unzip -qq pmd*.zip 
 	rm pmd*.zip
-	popd > /dev/null
+	popd > /dev/null || exit
 fi
