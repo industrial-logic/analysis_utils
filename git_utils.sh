@@ -7,10 +7,46 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 . "${SCRIPT_DIR}/get_pmd.sh"
 . "${SCRIPT_DIR}/check_args.sh"
 
+function git_current_commit() {
+  git log --pretty=format:'%H' -n 1
+}
+
+function git_first_commit() {
+  git log --pretty=format:'%H' | tail -1
+}
+
 function git_restore() {
-  git checkout . >/dev/null 2>&1
-  git checkout master >/dev/null 2>&1
+  git_go_to .
+  git_go_to master
   rm -f filelist
+}
+
+function git_go_to() {
+  check_args 1 "$@"
+
+  commit=$1
+  git checkout $1 2>/dev/null
+}
+
+function git_compare_to_previous() {
+  check_args 1 "$@"
+
+  commit=$1
+
+  git_go_to "$commit"
+  check_code > current_commit.txt
+
+  git_go_to "$commit^"
+
+  if [[ $(git_current_commit) != $(git_first_commit) ]] ; then
+    check_code > previous_commit.txt
+  else
+    rm previous_commit.txt
+    touch previous_commit.txt
+  fi
+
+  echo "This commit introduced the following things worthy of review"
+  diff current_commit.txt previous_commit.txt
 }
 
 function git_walk() {
@@ -18,21 +54,11 @@ function git_walk() {
 
   git_restore
 
-  git rev-list HEAD | while read commit; do
+  git rev-list HEAD | while read -r commit; do
     echo '-------------------------------------------'
     echo "$commit"
-    git checkout "$commit" >/dev/null 2>&1
-    check_code
+    git_compare_to_previous "$commit"
   done
 
   git_restore
-}
-
-function git_compare_to_previous() {
-  check_code > current_commit.txt
-  git checkout HEAD^ 2>/dev/null
-  check_code > previous_commit.txt
-  git_restore
-  echo "This commit introduced the following things worthy of review"
-  diff current_commit.txt previous_commit.txt
 }
