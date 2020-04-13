@@ -6,7 +6,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 FILE_PATTERN="[.]java"
 
-function execute_pmd() {
+function check_code() {
   check_args 1 "$@"
 
   file_list=$1

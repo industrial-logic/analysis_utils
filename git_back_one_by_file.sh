@@ -1,14 +1,8 @@
 #!/bin/bash
 
-function check_args() {
-  count=$1
-  shift
-  if [ "$#" -ne $count ]; then
-    echo "Requires $count parameters. Passed: " "$@"
-    caller
-    exit 1
-  fi
-}
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+
+. "$SCRIPT_DIR"/check_args.sh
 
 function git_files_in_commit {
   check_args 1 "$@"

@@ -3,18 +3,9 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 . "$SCRIPT_DIR"/get_pmd.sh
+. "$SCRIPT_DIR"/check_args.sh
 
 FILE_LIST=./filelist
-
-function check_args() {
-  count=$1
-  shift
-  if [ "$#" -ne $count ]; then
-    echo "Requires $count parameters. Passed: " "$@"
-    caller
-    exit 1
-  fi
-}
 
 function git_files_matching_pattern() {
   check_args 2 "$@"
@@ -55,7 +46,7 @@ function review() {
   file_count=$(cat $FILE_LIST | wc -l)
 
   if [ $file_count -gt 0 ]; then
-    execute_pmd $FILE_LIST
+    check_code $FILE_LIST
   else
     echo "No files matching '$pattern'"
   fi
@@ -80,4 +71,14 @@ function git_main() {
   git_restore
   git_walk $file_pattern
   git_restore
+}
+
+function git_compare_to_previous() {
+  git_files_in_commit HEAD > filelist
+  check_code filelist > current_commit.txt
+  git checkout HEAD^ 2>/dev/null
+  check_code filelist > current_commit_with_files_moved_back_one_commit.txt
+  git_restore
+  echo "This commit introduced the following things worthy of review"
+  diff current_commit.txt current_commit_with_files_moved_back_one_commit.txt
 }
