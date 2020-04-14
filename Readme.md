@@ -17,11 +17,15 @@ git clone git@github.com:schuchert/analysis_utils.git
 cd ~/src/some_git_repo
 ```
 
+### Check for duplication in most recent commit
+```
+~/src/analysis_utils/dups_in_this_commit.sh 2>/dev/null > dups.txt
+```
 ### Look for cyclomatic complexity issues by each commit
 ```
-~/src/analysis_utils/walk.sh cc.xml 2>/dev/null > cc_report.txt 
+~/src/analysis_utils/pmd_walk.sh cc.xml 2>/dev/null > cc_report.txt
 ```
 ### Look for code duplication by each commit
 ```
-~/src/analysis_utils/dup.sh 2>/dev/null > dup_report.txt
+~/src/analysis_utils/historical_duplication.sh 2>/dev/null > dup_report.txt
 ```

@@ -1,8 +1,7 @@
 #!/bin/bash
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
-
-. "$SCRIPT_DIR"/check_args.sh
+script_dir=$1
+. "$script_dir"/bashlibs/check_args.sh
 
 function git_files_in_commit {
   check_args 1 "$@"

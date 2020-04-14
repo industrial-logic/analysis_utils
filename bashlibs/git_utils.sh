@@ -2,10 +2,9 @@
 
 # shellcheck source=.
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
-
-. "${SCRIPT_DIR}/get_pmd.sh"
-. "${SCRIPT_DIR}/check_args.sh"
+script_dir=$1
+. "${script_dir}/bashlibs/get_pmd.sh"
+. "${script_dir}/bashlibs/check_args.sh"
 
 function git_current_commit() {
   git log --pretty=format:'%H' -n 1
@@ -19,6 +18,8 @@ function git_restore() {
   git_go_to .
   git_go_to master
   rm -f filelist
+  rm current_commit.txt
+  rm previous_commit.txt
 }
 
 function git_go_to() {
