@@ -26,7 +26,7 @@ function git_go_to() {
   check_args 1 "$@"
 
   commit=$1
-  git checkout $1 2>/dev/null
+  git checkout $1 > /dev/null 2>&1
 }
 
 function git_compare_to_previous() {
