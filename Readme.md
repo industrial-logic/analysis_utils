@@ -29,3 +29,13 @@ cd ~/src/some_git_repo
 ```
 ~/src/analysis_utils/historical_duplication.sh 2>/dev/null > dup_report.txt
 ```
+
+### Check for dups across several children directories under current directory
+```
+cd ~/src # note is a top-level directory where I clone my repos
+~/src/analysis_utils/dups_across_all.sh
+```
+
+This will find all directories under the current one with a src directory.
+Then for each directory, cd into in, run dups_in_this_commit.sh.
+
