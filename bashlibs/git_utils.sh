@@ -18,8 +18,8 @@ function git_restore() {
   git_go_to .
   git_go_to master
   rm -f filelist
-  rm current_commit.txt
-  rm previous_commit.txt
+  rm -f current_commit.txt
+  rm -f previous_commit.txt
 }
 
 function git_go_to() {
