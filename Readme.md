@@ -17,14 +17,24 @@ git clone git@github.com:schuchert/analysis_utils.git
 cd ~/src/some_git_repo
 ```
 
-### Check for duplication in most recent commit
+### Assumptions
+There are no local changes. If there are, you will lose them. So commit or stash.
+
+### Check for duplication 
+```
+~/src/analysis_utils/dups.sh 2>/dev/null > dups.txt
+```
+
+### Check for duplication changed by most recent commit
 ```
 ~/src/analysis_utils/dups_in_this_commit.sh 2>/dev/null > dups.txt
 ```
+
 ### Look for cyclomatic complexity issues by each commit
 ```
 ~/src/analysis_utils/pmd_walk.sh cc.xml 2>/dev/null > cc_report.txt
 ```
+
 ### Look for code duplication by each commit
 ```
 ~/src/analysis_utils/historical_duplication.sh 2>/dev/null > dup_report.txt
