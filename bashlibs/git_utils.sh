@@ -42,7 +42,7 @@ function git_compare_to_previous() {
   if [[ $(git_current_commit) != $(git_first_commit) ]] ; then
     check_code > previous_commit.txt
   else
-    rm previous_commit.txt
+    rm -f previous_commit.txt
     touch previous_commit.txt
   fi
 
