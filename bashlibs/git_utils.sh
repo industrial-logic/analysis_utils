@@ -6,6 +6,17 @@ script_dir=$1
 . "${script_dir}/bashlibs/get_pmd.sh"
 . "${script_dir}/bashlibs/check_args.sh"
 
+function git_exit_if_not_clean() {
+    CHANGES=$(git status --porcelain | wc -l)
+    if [ "$CHANGES" -ne 0 ]; then
+        echo "There are unstaged changes."
+        echo "Please make sure repo is clean and then try again."
+        echo "To see what changes you have, try:"
+        echo "    git status --porcelain"
+        exit 1
+    fi
+}
+
 function git_current_commit() {
   git log --pretty=format:'%H' -n 1
 }
@@ -26,6 +37,8 @@ function git_go_to() {
   check_args 1 "$@"
 
   commit=$1
+
+  git_exit_if_not_clean
   git checkout $1 > /dev/null 2>&1
 }
 
