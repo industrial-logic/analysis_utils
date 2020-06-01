@@ -22,22 +22,22 @@ There are no local changes. If there are, you will lose them. So commit or stash
 
 ### Check for duplication 
 ```
-~/src/analysis_utils/dups.sh 2>/dev/null > dups.txt
+~/src/analysis_utils/dups.sh > dups.txt
 ```
 
 ### Check for duplication changed by most recent commit
 ```
-~/src/analysis_utils/dups_in_this_commit.sh 2>/dev/null > dups.txt
+~/src/analysis_utils/dups_in_this_commit.sh > dups.txt
 ```
 
 ### Look for cyclomatic complexity issues by each commit
 ```
-~/src/analysis_utils/pmd_walk.sh cc.xml 2>/dev/null > cc_report.txt
+~/src/analysis_utils/pmd_walk.sh cc.xml > cc_report.txt
 ```
 
 ### Look for code duplication by each commit
 ```
-~/src/analysis_utils/historical_duplication.sh 2>/dev/null > dup_report.txt
+~/src/analysis_utils/historical_duplication.sh > dup_report.txt
 ```
 
 ### Check for dups across several children directories under current directory
