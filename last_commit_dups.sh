@@ -2,6 +2,9 @@
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
+. "${SCRIPT_DIR}/bashlibs/git_utils.sh" $SCRIPT_DIR
+git_exit_if_not_clean
+
 TOTAL_COMMITS_BACK=1
 
 if [ "$#" -eq 1  ]; then
