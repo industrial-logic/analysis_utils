@@ -69,15 +69,17 @@ for i in $(git log --pretty=format:"%H" -n $TOTAL_COMMITS_BACK);do
     git checkout HEAD^ 2>/dev/null
     END_TOKEN_COUNT=$(total)
     DIFF=`expr $START_TOKEN_COUNT - $END_TOKEN_COUNT`
-    printf "%-30s: Diff: %8d Current: %7d Previous: %7d Commit: %7s [%s]\n" \
-        "$PROJ" "$DIFF" "$START_TOKEN_COUNT" "$END_TOKEN_COUNT" "$START_COMMIT" "$COMMIT_DATE"
-    if [[ $FAIL_PERCENTAGE -gt 0 && $END_TOKEN_COUNT -gt 0 ]]; then
+    if [[ $END_TOKEN_COUNT -gt 0 ]]; then
         DELTA=`expr $DIFF \* 100 / $END_TOKEN_COUNT`
-        if [[ $DELTA -ge $FAIL_PERCENTAGE ]]; then
-            echo "Last commit increased duplication by $DELTA percent" 1>&2
-            echo "Allowed threshold was set to $FAIL_PERCENTAGE" 1>&2
-            RETURN_STATUS=1
-        fi
+    else
+        DELTA=0
+    fi
+    printf "%-30s: Diff: %8d (%4d%%) Current: %7d Previous: %7d Commit: %7s [%s]\n" \
+        "$PROJ" "$DIFF" "$DELTA" "$START_TOKEN_COUNT" "$END_TOKEN_COUNT" "$START_COMMIT" "$COMMIT_DATE"
+    if [[ $FAIL_PERCENTAGE -gt 0 && $DELTA -ge $FAIL_PERCENTAGE ]]; then
+        echo "Last commit increased duplication by $DELTA percent" 1>&2
+        echo "Allowed threshold was set to $FAIL_PERCENTAGE" 1>&2
+        RETURN_STATUS=1
     fi
 done
 
