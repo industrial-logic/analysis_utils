@@ -60,7 +60,7 @@ done
 
 PWD=`pwd`
 PROJ=`basename $PWD`
-
+CURRENT_BRANCH=$(git branch --show-current)
 for i in $(git log --pretty=format:"%H" -n $TOTAL_COMMITS_BACK);do
     git checkout $i 2>/dev/null
     COMMIT_DATE=$(git show -s --format=%ci $i)
@@ -83,5 +83,5 @@ for i in $(git log --pretty=format:"%H" -n $TOTAL_COMMITS_BACK);do
     fi
 done
 
-git checkout master >/dev/null 2>&1
+git checkout $CURRENT_BRANCH >/dev/null 2>&1
 exit $RETURN_STATUS
