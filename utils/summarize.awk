@@ -16,11 +16,12 @@ BEGIN {
 
 /Starting at/ { 
 	file=$6
+    lineNumber=$4
 	gsub(/\\/, "/", file)
 	sub(currentDir,"",file)
 	gsub(/C:./,"",file)
 	gsub(/^\//,"",file)
-	print currentId "," file "," $4 "," currentLines "," currentTokens " (" file ":" $4 ")"
+	printf "%5d, %5d, %4d, (%s:%d)\n", currentId, currentLines, currentTokens, file, lineNumber
 	next; 
 }
 
