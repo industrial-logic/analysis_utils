@@ -60,7 +60,7 @@ done
 
 PWD=`pwd`
 PROJ=`basename $PWD`
-CURRENT_BRANCH=$(git branch --show-current)
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 for i in $(git log --pretty=format:"%H" -n $TOTAL_COMMITS_BACK);do
     git checkout $i 2>/dev/null
     COMMIT_DATE=$(git show -s --format=%ci $i)
