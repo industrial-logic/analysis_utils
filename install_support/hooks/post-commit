@@ -1,0 +1,14 @@
+#!/bin/bash
+
+DEST=XXX
+
+if [[ -d "$DEST" ]];
+then
+	pushd "$DEST"
+	git pull
+	popd
+else
+	git clone git@github.com:schuchert/analysis_utils.git "$DEST"
+fi
+
+$DEST/last_commit_dups.sh

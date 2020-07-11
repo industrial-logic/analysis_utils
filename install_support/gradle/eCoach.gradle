@@ -1,0 +1,7 @@
+task summarizeDuplications(type: Exec) {
+    commandLine 'XXX/summarize.sh'
+}
+
+task checkDuplication(type: Exec) {
+    commandLine 'XXX/last_commit_dups.sh', '-f', '10'
+}
