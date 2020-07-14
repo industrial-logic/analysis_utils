@@ -16,12 +16,12 @@ function git_or_go() {
 
 function install_tool() {
     if [[ -d "$DEST" ]];
-    then 
+    then
         pushd "$DEST"
         git pull
         popd
     else
-        git clone git@github.com:schuchert/analysis_utils.git "$DEST"
+        git clone https://github.com/schuchert/analysis_utils.git "$DEST"
     fi
 
     if [[ ! $(grep "$DEST" build.gradle) ]]; then

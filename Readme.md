@@ -10,7 +10,7 @@ These instructions assume you have a bash-like shell. Any unix will be fine. Mac
 * Clone this repo (assuming the directory ~/src/analysis_utils for remainder of instructions)
 ```
 cd ~/src
-git clone git@github.com:schuchert/analysis_utils.git
+git clone https://github.com/schuchert/analysis_utils.git
 ```
 * Switch to a git repository
 ```
