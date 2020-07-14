@@ -9,6 +9,6 @@ BEGIN {
 }
 
 /.*/ { 
-    if($5 > minimumTokens) 
+    if($3 > minimumTokens) 
         print $0
 }

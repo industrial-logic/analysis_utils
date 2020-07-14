@@ -9,7 +9,7 @@ BEGIN {
 
 /Found a/ { 
 	currentLines = $3 
-	currentTokens =$5
+	currentTokens = $5
     currentId = nextId++
 	gsub(/^./,"",currentTokens); 
 }
