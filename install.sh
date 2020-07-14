@@ -9,8 +9,8 @@ CURRENT=`PWD`
 
 function git_or_go() {
     if [[ ! -d ".git" ]]; then
-	echo "This does not appear to be a git repository" 1>&2
-	exit 1
+    echo "This does not appear to be a git repository" 1>&2
+    exit 1
     fi
 }
 
@@ -25,8 +25,8 @@ function install_tool() {
     fi
 
     if [[ ! $(grep "$DEST" build.gradle) ]]; then
-	echo "$DEST" >> .gitignore
-	git add .gitignore
+        echo "$DEST" >> .gitignore
+        git add .gitignore
         git commit -m 'Updated to skip eCoach tool'
     fi
 }
@@ -34,20 +34,22 @@ function install_tool() {
 function update_commit_gradle() {
     if [[ ! $(grep "checkDuplication" build.gradle) ]]; then
         sed "s/XXX/$DEST/" \
-		$SCRIPT_DIR/install_support/gradle/eCoach.gradle \
-		>> build.gradle
+        $SCRIPT_DIR/install_support/gradle/eCoach.gradle \
+        >> build.gradle
         git add build.gradle
         git commit -am 'Adding support for eCoach'
     fi
 }
 
+POST_COMMIT=.git/hooks/post-commit
 function install_git_hook() {
     if [[ -f ".git/hooks/post-commit" ]]; then
         echo "Already installed or existing post-commit hook" 1>&2
     else
         sed "s/XXX/$DEST/" \
-		$SCRIPT_DIR/install_support/hooks/post-commit \
-		> .git/hooks/post-commit
+        $SCRIPT_DIR/install_support/hooks/post-commit \
+            > $POST_COMMIT
+        chmod +x $POST_COMMIT
     fi
 }
 
