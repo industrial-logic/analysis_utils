@@ -4,11 +4,8 @@ DEST=XXX
 
 if [[ -d "$DEST" ]];
 then
-	pushd "$DEST"
-	git pull
-	popd
+    $DEST/last_commit_dups.sh
 else
-	git clone https://github.com/schuchert/analysis_utils.git "$DEST"
+    echo "Git hook installed but $DEST has not been checked out"
 fi
 
-$DEST/last_commit_dups.sh
