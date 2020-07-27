@@ -1,9 +1,9 @@
 task checkDuplication(type: Exec) {
-    commandLine "$LOC/last_commit_dups.sh", '-f', '10'
+    commandLine ".analysis_utils/last_commit_dups.sh", '-f', '10'
 }
 
 task summarizeDuplications(type: Exec) {
-    commandLine "$LOC/summarize.sh"
+    commandLine ".analysis_tools//summarize.sh"
 }
 
 task updateDuplicationTool(type: Exec) {
