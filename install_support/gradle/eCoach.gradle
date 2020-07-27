@@ -3,7 +3,7 @@ task checkDuplication(type: Exec) {
 }
 
 task summarizeDuplications(type: Exec) {
-    commandLine ".analysis_tools//summarize.sh"
+    commandLine ".analysis_tools/summarize.sh"
 }
 
 task updateDuplicationTool(type: Exec) {
