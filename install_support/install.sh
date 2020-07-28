@@ -2,7 +2,7 @@
 
 # shellcheck source=.
 
-DEST=.analysis_utils
+DEST=../analysis_utils
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 CURRENT=`PWD`
@@ -23,37 +23,16 @@ function install_tool() {
     else
         git clone https://github.com/schuchert/analysis_utils.git "$DEST"
     fi
-
-    if [[ ! $(grep "$DEST" build.gradle) ]]; then
-        echo "$DEST" >> .gitignore
-        git add .gitignore
-        git commit -m 'Updated to skip eCoach tool'
-    fi
 }
 
 function update_commit_gradle() {
-    if [[ ! $(grep "checkDuplication" build.gradle) ]]; then
-        sed "s/XXX/$DEST/" \
-        $SCRIPT_DIR/install_support/gradle/eCoach.gradle \
-        >> build.gradle
+    if [[ ! $(grep "eCoach[.]gradle" build.gradle) ]]; then
+        cat $SCRIPT_DIR/gradle/eCoach_stub >> build.gradle
         git add build.gradle
         git commit -am 'Adding support for eCoach'
-    fi
-}
-
-POST_COMMIT=.git/hooks/post-commit
-function install_git_hook() {
-    if [[ -f ".git/hooks/post-commit" ]]; then
-        echo "Already installed or existing post-commit hook" 1>&2
-    else
-        sed "s/XXX/$DEST/" \
-        $SCRIPT_DIR/install_support/hooks/post-commit \
-            > $POST_COMMIT
-        chmod +x $POST_COMMIT
     fi
 }
 
 git_or_go
 install_tool
 update_commit_gradle
-install_git_hook

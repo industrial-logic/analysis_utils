@@ -1,12 +1,12 @@
 task checkDuplication(type: Exec) {
-    commandLine ".analysis_utils/last_commit_dups.sh", '-f', '10'
+    commandLine "../analysis_utils/last_commit_dups.sh", '-f', '1'
 }
 
 task summarizeDuplications(type: Exec) {
-    commandLine '.analysis_utils/summarize.sh'
+    commandLine '../analysis_utils/summarize.sh'
 }
 
 task updateDuplicationTool(type: Exec) {
-    workingDir './.analysis_utils'
+    workingDir '../analysis_utils'
     commandLine 'git', 'pull'
 }
