@@ -1,0 +1,14 @@
+def utils=new File("../analysis_utils")
+if( !utils.exists() ) {
+    exec {
+        try {
+            commandLine 'git', 'clone', 'https://github.com/schuchert/analysis_utils.git', '../analysis_utils'
+        } catch ( e ) {
+            print "Unable to find ../analysis_utils and proxy settings may not be correct"
+        }
+    }
+}
+if(utils.exists()) {
+    apply from: "../analysis_utils/install_support/gradle/eCoach.gradle"
+}
+
