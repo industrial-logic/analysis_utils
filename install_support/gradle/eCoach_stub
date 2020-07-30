@@ -7,7 +7,7 @@ if( !utils.exists() ) {
         } catch ( e ) {
             print "Unable to find ../analysis_utils."
             print "Attempt to clone repo failed."
-            print "Are your proxy settings correct?""
+            print "Are your proxy settings correct?"
         }
     }
 }
