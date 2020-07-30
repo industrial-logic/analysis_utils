@@ -27,6 +27,9 @@ function install_tool() {
 
 function update_commit_gradle() {
     if [[ ! $(grep "eCoach[.]gradle" build.gradle) ]]; then
+        if [[ ! -z "$(tail -c 1 build.gradle)" ]]; then
+            echo "" >> build.gradle
+        fi
         cat $SCRIPT_DIR/gradle/eCoach_stub >> build.gradle
         git add build.gradle
         git commit -am 'Adding support for eCoach'

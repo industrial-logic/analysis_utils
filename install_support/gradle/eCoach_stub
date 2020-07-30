@@ -5,11 +5,16 @@ if( !utils.exists() ) {
         try {
             commandLine 'git', 'clone', 'https://github.com/schuchert/analysis_utils.git', '../analysis_utils'
         } catch ( e ) {
-            print "Unable to find ../analysis_utils and proxy settings may not be correct"
+            print "Unable to find ../analysis_utils."
+            print "Attempt to clone repo failed."
+            print "Are your proxy settings correct?""
         }
     }
 }
 if(utils.exists()) {
     apply from: "../analysis_utils/install_support/gradle/eCoach.gradle"
+} else {
+    print "Appears that ../analysis_utils has not been cloned."
+    print "Check your proxy settings?"
 }
 

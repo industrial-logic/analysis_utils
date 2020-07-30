@@ -1,5 +1,5 @@
 task checkDuplication(type: Exec) {
-    commandLine "../analysis_utils/last_commit_dups.sh", '-f', '1'
+    commandLine "../analysis_utils/last_commit_dups.sh", '-f', '75'
 }
 
 task summarizeDuplications(type: Exec) {

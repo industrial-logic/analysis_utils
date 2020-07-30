@@ -8,7 +8,7 @@ git_exit_if_not_clean
 function usage() {
     echo "Usage: $0"
     echo "  [-b <n> Go back n commits, defaults to 1]"
-    echo "  [-f <n> Force failure when increase greater than n %, defaults to 10]"
+    echo "  [-f <n> Force failure when increase greater than n lines, defaults to 10]"
     echo "  [-h print this message]"
 }
 
@@ -28,7 +28,7 @@ function total {
 }
 
 TOTAL_COMMITS_BACK=1
-FAIL_PERCENTAGE=0
+FAIL_THRESHOLD=0
 RETURN_STATUS=0
 while getopts hb:f: opt
 do
@@ -38,8 +38,8 @@ do
             isWholeNumber $TOTAL_COMMITS_BACK '-b'
             ;;
         f)
-            FAIL_PERCENTAGE=$OPTARG
-            isWholeNumber $FAIL_PERCENTAGE '-f'
+            FAIL_THRESHOLD=$OPTARG
+            isWholeNumber $FAIL_THRESHOLD '-f'
             ;;
         h)
             usage
@@ -75,10 +75,11 @@ for i in $(git log --pretty=format:"%H" -n $TOTAL_COMMITS_BACK);do
         DELTA=0
     fi
     printf "%-30s: Diff: %8d (%4d%%) Current: %7d Previous: %7d Commit: %7s [%s]\n" \
-        "$PROJ" "$DIFF" "$DELTA" "$START_TOKEN_COUNT" "$END_TOKEN_COUNT" "$START_COMMIT" "$COMMIT_DATE"
-    if [[ $FAIL_PERCENTAGE -gt 0 && $DELTA -ge $FAIL_PERCENTAGE ]]; then
-        echo "Last commit increased duplication by $DELTA percent" 1>&2
-        echo "Allowed threshold was set to $FAIL_PERCENTAGE" 1>&2
+        "$PROJ" "$DIFF" "$DELTA" "$START_TOKEN_COUNT" "$END_TOKEN_COUNT" \
+        "$START_COMMIT" "$COMMIT_DATE"
+    if [[ $FAIL_THRESHOLD -gt 0 && $DIFF -ge $FAIL_THRESHOLD ]]; then
+        echo "Last commit increased duplication by $DIFF tokens" 1>&2
+        echo "Allowed threshold was set to $FAIL_THRESHOLD" 1>&2
         RETURN_STATUS=1
     fi
 done
