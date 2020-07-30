@@ -13,6 +13,7 @@ if( !utils.exists() ) {
 }
 if(utils.exists()) {
     apply from: "../analysis_utils/install_support/gradle/eCoach.gradle"
+    test.finalizedBy(checkDuplication)
 } else {
     print "Appears that ../analysis_utils has not been cloned."
     print "Check your proxy settings?"
