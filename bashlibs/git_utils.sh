@@ -13,7 +13,7 @@ function git_exit_if_not_clean() {
         echo "Please make sure repo is clean and then try again."
         echo "To see what changes you have, try:"
         echo "    git status --porcelain"
-        exit 1
+        exit 0
     fi
 }
 
