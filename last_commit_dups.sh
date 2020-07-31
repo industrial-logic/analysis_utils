@@ -60,11 +60,15 @@ done
 
 PWD=`pwd`
 PROJ=`basename $PWD`
-CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+INITIAL_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+INITIAL_COMMIT=$(git rev-parse HEAD)
+
+
 for i in $(git log --pretty=format:"%H" -n $TOTAL_COMMITS_BACK);do
     git checkout $i 2>/dev/null
     COMMIT_DATE=$(git show -s --format=%ci $i)
-    START_COMMIT=$(git log --pretty=format:'%h' -n 1)
+    START_COMMIT=$(git rev-parse HEAD)
+    START_BRANCH=$(git rev-parse --abbrev-ref HEAD)
     START_TOKEN_COUNT=$(total)
     git checkout HEAD^ 2>/dev/null
     END_TOKEN_COUNT=$(total)
@@ -84,5 +88,9 @@ for i in $(git log --pretty=format:"%H" -n $TOTAL_COMMITS_BACK);do
     fi
 done
 
-git checkout $CURRENT_BRANCH >/dev/null 2>&1
+if [[ 'HEAD' == "$INITIAL_BRANCH" ]]; then # detatched head
+    git checkout "$INITIAL_COMMIT" > /dev/null 2>&1
+else
+    git checkout "$INITIAL_BRANCH" > /dev/null 2>&1
+fi
 exit $RETURN_STATUS
