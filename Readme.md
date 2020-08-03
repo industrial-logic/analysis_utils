@@ -7,6 +7,7 @@ These instructions assume you have a bash-like shell. Any unix will be fine. Mac
 * curl
 * coreutils (for gdate)
 * gnuplot (for plotting duplications over time)
+* jq (for easier posting to slack)
 
 ## Using
 * Clone this repo (assuming the directory ~/src/analysis_utils for remainder of instructions)
