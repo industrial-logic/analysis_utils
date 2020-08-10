@@ -48,19 +48,20 @@ function git_compare_to_previous() {
   commit=$1
 
   git_go_to "$commit"
-  check_code > current_commit.txt
+  check_code > /tmp/current_commit.txt
 
   git_go_to "$commit^"
 
   if [[ $(git_current_commit) != $(git_first_commit) ]] ; then
-    check_code > previous_commit.txt
+    check_code > /tmp/previous_commit.txt
   else
-    rm -f previous_commit.txt
-    touch previous_commit.txt
+    rm -f /tmp/previous_commit.txt
+    touch /tmp/previous_commit.txt
   fi
 
   echo "This commit introduced the following things worthy of review"
-  diff current_commit.txt previous_commit.txt
+  diff /tmp/current_commit.txt /tmp/previous_commit.txt
+  rm /tmp/current_commit.txt /tmp/previous_commit.txt
 }
 
 function git_walk() {
