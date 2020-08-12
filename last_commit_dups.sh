@@ -2,6 +2,16 @@
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
+function cleanup {
+    if [[ 'HEAD' == "$INITIAL_BRANCH" ]]; then # detatched head
+        git checkout "$INITIAL_COMMIT" > /dev/null 2>&1
+    else
+        git checkout "$INITIAL_BRANCH" > /dev/null 2>&1
+    fi
+}
+
+trap cleanup EXIT
+
 . "${SCRIPT_DIR}/bashlibs/git_utils.sh" $SCRIPT_DIR
 git_exit_if_not_clean
 
@@ -88,9 +98,5 @@ for i in $(git log --pretty=format:"%H" -n $TOTAL_COMMITS_BACK);do
     fi
 done
 
-if [[ 'HEAD' == "$INITIAL_BRANCH" ]]; then # detatched head
-    git checkout "$INITIAL_COMMIT" > /dev/null 2>&1
-else
-    git checkout "$INITIAL_BRANCH" > /dev/null 2>&1
-fi
+cleanup
 exit $RETURN_STATUS
