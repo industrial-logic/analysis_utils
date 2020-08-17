@@ -20,5 +20,6 @@ echo 'set format x "%Y-%m-%d"'
 echo 'set xtics rotate by 90 right'
 echo 'set yrange [0:*]'
 echo 'set title "Total Duplication Across Time"'
+echo 'set key left bottom'
 echo 'plot $DATABLOCK using 1:2 with lines title "Total Lines of Duplication"'
 
