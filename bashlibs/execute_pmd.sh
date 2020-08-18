@@ -8,9 +8,10 @@ script_dir="$1"
 . "${script_dir}/bashlibs/check_src.sh"
 
 RULES="${script_dir}/rulesets/${2}"
-
+RUN_PMD=$(find "$script_dir" -name run.sh)
 function check_code() {
+    src_dir=$(find . -type d -name src)
 	check_src_dir
-    "$(pmd_run)" pmd -d ./src -R "$RULES" -f text 2>/dev/null
+    "$RUN_PMD" pmd -dir "$src_dir" -rulesets "$RULES" -f text 2>/dev/null
 }
 
