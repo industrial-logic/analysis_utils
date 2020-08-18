@@ -10,8 +10,10 @@ script_dir="$1"
 RULES="${script_dir}/rulesets/${2}"
 RUN_PMD=$(find "$script_dir" -name run.sh)
 function check_code() {
-    src_dir=$(find . -type d -name src)
+    FILELIST=$(mktemp)
+    find . -type d -name src > "$FILELIST"
 	check_src_dir
-    "$RUN_PMD" pmd -dir "$src_dir" -rulesets "$RULES" -f text 2>/dev/null
+    "$RUN_PMD" pmd -filelist "$FILELIST" -rulesets "$RULES" -f text 2>/dev/null
+    rm "$FILELIST"
 }
 
