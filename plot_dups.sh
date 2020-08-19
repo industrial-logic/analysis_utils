@@ -6,4 +6,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 check_src_dir
 
-$SCRIPT_DIR/utils/dups_by_commit.sh | $SCRIPT_DIR/utils/to_gnuplot.sh | gnuplot
+# quick hack to parameterize
+BACK=${1:-''}
+
+$SCRIPT_DIR/utils/dups_by_commit.sh $BACK | $SCRIPT_DIR/utils/to_gnuplot.sh | gnuplot

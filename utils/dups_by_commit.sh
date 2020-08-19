@@ -12,7 +12,9 @@ function total {
     echo $($SCRIPT_DIR/../dups.sh 2>/dev/null | $SCRIPT_DIR/summarize.awk | awk -F"," 'BEGIN{sum=0} {sum += $2} END {print sum}')
 }
 
-for i in $(git log --pretty=format:'%H' --since=4.weeks); do
+BACK=${1:-"4.weeks"}
+
+for i in $(git log --pretty=format:'%H' --since="$BACK"); do
     git checkout $i 2>/dev/null
     COMMIT_DATE=$(git show -s --format=%ci --date=local $i)
     COMMIT_DATE=$(gdate +"%Y-%m-%d %H:%M:%S" -d "$COMMIT_DATE")
