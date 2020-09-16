@@ -1,2 +1,5 @@
 pmd-*
 *.swp
+*.cf
+dependnecies.txt
+.idea
