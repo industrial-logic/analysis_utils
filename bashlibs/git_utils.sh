@@ -6,9 +6,17 @@ script_dir=$1
 . "${script_dir}/bashlibs/get_pmd.sh"
 . "${script_dir}/bashlibs/check_args.sh"
 
-function git_exit_if_not_clean() {
+function git_clean() {
     CHANGES=$(git status --porcelain | wc -l)
-    if [ "$CHANGES" -ne 0 ]; then
+    if [ "$CHANGES" -eq 0 ]; then
+        echo 1
+    else
+        echo 0
+    fi
+}
+
+function git_exit_if_not_clean() {
+    if [ $(git_clean) -eq 0 ]; then
         echo "There are unstaged changes."
         echo "Please make sure repo is clean and then try again."
         echo "To see what changes you have, try:"
