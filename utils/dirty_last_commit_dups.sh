@@ -2,7 +2,7 @@
 
 # shellcheck source=.
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+SCRIPT_DIR="$1"
 
 function cleanup() {
   rm -rf "$CLONE_DESTINATION"
@@ -12,10 +12,6 @@ trap cleanup EXIT
 function project() {
   PWD=$(pwd)
   echo $(basename "$PWD")
-}
-
-function total() {
-  echo $("$SCRIPT_DIR"/dups.sh 2>/dev/null | $SCRIPT_DIR/utils/summarize.awk | awk -F"," 'BEGIN{sum=0} {sum += $2} END {print sum}')
 }
 
 function cloneRepo() {
@@ -30,7 +26,7 @@ function totalClone() {
   echo "$totalLines"
 }
 
-function process_dirty_repo() {
+function process_repo() {
   PROJ=$(project)
   START_LINE_COUNT=$(total)
   CLONE_DESTINATION=$(cloneRepo)

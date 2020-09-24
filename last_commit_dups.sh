@@ -2,23 +2,13 @@
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
-function cleanup() {
-  if [[ 'HEAD' == "$INITIAL_BRANCH" ]]; then # detatched head
-    git checkout "$INITIAL_COMMIT" >/dev/null 2>&1
-  else
-    git checkout "$INITIAL_BRANCH" >/dev/null 2>&1
-  fi
-}
-
-trap cleanup EXIT
-
-. "${SCRIPT_DIR}/bashlibs/git_utils.sh" $SCRIPT_DIR
+. "${SCRIPT_DIR}/bashlibs/git_utils.sh" "$SCRIPT_DIR"
 
 function set_status() {
   diff=$1
   threshold=$2
   if [[ $threshold -gt 0 && $diff -ge $threshold ]]; then
-    echo "Last commit increased duplication by $diff tokens" 1>&2
+    echo "Last commit increased duplication by $diff lines" 1>&2
     echo "Allowed threshold was set to $threshold" 1>&2
     RETURN_STATUS=1
   else
@@ -46,32 +36,6 @@ function isWholeNumber() {
 
 function total() {
   echo $($SCRIPT_DIR/dups.sh 2>/dev/null | $SCRIPT_DIR/utils/summarize.awk | awk -F"," 'BEGIN{sum=0} {sum += $2} END {print sum}')
-}
-
-function process_clean_repo() {
-  PWD=$(pwd)
-  PROJ=$(basename $PWD)
-  INITIAL_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-  INITIAL_COMMIT=$(git rev-parse HEAD)
-
-  for i in $(git log --pretty=format:"%H" -n $TOTAL_COMMITS_BACK); do
-    git checkout $i 2>/dev/null
-    COMMIT_DATE=$(git show -s --format=%ci $i)
-    START_COMMIT=$(git rev-parse HEAD)
-    START_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-    START_TOKEN_COUNT=$(total)
-    git checkout HEAD^ 2>/dev/null
-    END_TOKEN_COUNT=$(total)
-    DIFF=$(expr $START_TOKEN_COUNT - $END_TOKEN_COUNT)
-    if [[ $END_TOKEN_COUNT -gt 0 ]]; then
-      DELTA=$(expr $DIFF \* 100 / $END_TOKEN_COUNT)
-    else
-      DELTA=0
-    fi
-    printf "%-30s: Diff: %8d (%4d%%) Current: %7d Previous: %7d Commit: %7s [%s]\n" \
-      "$PROJ" "$DIFF" "$DELTA" "$START_TOKEN_COUNT" "$END_TOKEN_COUNT" \
-      "$START_COMMIT" "$COMMIT_DATE"
-  done
 }
 
 TOTAL_COMMITS_BACK=1
@@ -104,14 +68,12 @@ while getopts hb:f: opt; do
   esac
 done
 
-
 if [ $(git_clean) -eq 0 ]; then
-  . "${SCRIPT_DIR}/dirty_last_commit_dups.sh" "$@"
-  process_dirty_repo
+  . "${SCRIPT_DIR}/utils/dirty_last_commit_dups.sh" "${SCRIPT_DIR}"
 else
-  git_exit_if_not_clean
-  process_clean_repo
+  . "${SCRIPT_DIR}/utils/clean_last_commit_dups.sh" "${SCRIPT_DIR}"
 fi
 
+process_repo
 set_status "$DIFF" "$FAIL_THRESHOLD"
 exit $RETURN_STATUS
