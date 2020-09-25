@@ -1,13 +1,15 @@
 #!/bin/bash
 
+# shellcheck source=.
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
-. "$SCRIPT_DIR"/bashlibs/get_pmd.sh $SCRIPT_DIR
-. "${SCRIPT_DIR}/bashlibs/git_utils.sh" "$SCRIPT_DIR"
+. "$SCRIPT_DIR"/bashlibs/get_pmd.sh "$SCRIPT_DIR"
+. "$SCRIPT_DIR"/bashlibs/git_utils.sh "$SCRIPT_DIR"
 
 function set_status() {
-  diff=$1
-  threshold=$2
+  diff="$1"
+  threshold="$2"
   if [[ $threshold -gt 0 && $diff -ge $threshold ]]; then
     echo "Last commit increased duplication by $diff lines" 1>&2
     echo "Allowed threshold was set to $threshold" 1>&2
@@ -29,7 +31,7 @@ function isWholeNumber() {
   option=$2
   wholeNumber='^[0-9]+$'
   if ! [[ $value =~ $wholeNumber ]]; then
-    echo "Value provided for $2 option must be a positive whole number"
+    echo "Value provided for $option option must be a positive whole number"
     echo "Actual value: '$value'"
     exit 1
   fi
@@ -42,6 +44,7 @@ function total() {
 TOTAL_COMMITS_BACK=1
 FAIL_THRESHOLD=0
 RETURN_STATUS=0
+DIFF=0
 while getopts hb:f: opt; do
   case $opt in
   b)
