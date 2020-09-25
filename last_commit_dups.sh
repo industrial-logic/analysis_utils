@@ -36,7 +36,7 @@ function isWholeNumber() {
 }
 
 function total() {
-  echo $($SCRIPT_DIR/dups.sh 2>/dev/null | $SCRIPT_DIR/utils/summarize.awk | awk -F"," 'BEGIN{sum=0} {sum += $2} END {print sum}')
+  "$SCRIPT_DIR"/dups.sh 2>/dev/null | "$SCRIPT_DIR"/utils/summarize.awk | "$SCRIPT_DIR"/utils/total_lines.awk
 }
 
 TOTAL_COMMITS_BACK=1

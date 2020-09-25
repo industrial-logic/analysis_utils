@@ -11,23 +11,23 @@ function line() {
 function countDuplication() {
 	  check_args 1 "$@"
 
-    DIR=$1
-    (cd $DIR; $SCRIPT_DIR/summarize.sh 2>/dev/null | awk -F"," 'BEGIN{sum=0} {sum+=$2} END {print sum}')
+    DIR="$1"
+    (cd "$DIR" || exit; "$SCRIPT_DIR"/summarize.sh 2>/dev/null | "$SCRIPT_DIR"/utils/total_lines.awk)
 }
 
 function firstCommitDate() {
 	  check_args 1 "$@"
 
-    DIR=$1
-    (cd $DIR; git log --reverse --format=%ci | head -1)
+    DIR="$1"
+    (cd "$DIR" || exit; git log --reverse --format=%ci | head -1)
 }
 
 function summarizeTotal() {
     for i in */src;do
         d=$(dirname "$i")
-        total=$(countDuplication $d)
-        date=$(firstCommitDate $d)
-        line "$total" $d "$date"
+        total=$(countDuplication "$d")
+        date=$(firstCommitDate "$d")
+        line "$total" "$d" "$date"
     done
 }
 

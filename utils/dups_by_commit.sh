@@ -9,7 +9,7 @@ function cleanup {
 trap cleanup EXIT
 
 function total {
-    echo $($SCRIPT_DIR/../dups.sh 2>/dev/null | $SCRIPT_DIR/summarize.awk | awk -F"," 'BEGIN{sum=0} {sum += $2} END {print sum}')
+    $SCRIPT_DIR/../dups.sh 2>/dev/null | $SCRIPT_DIR/summarize.awk | "$SCRIPT_DIR"/total_lines.awk
 }
 
 BACK=${1:-"4.weeks"}
