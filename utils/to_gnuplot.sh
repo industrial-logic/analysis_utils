@@ -2,11 +2,27 @@
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
+
 echo '$DATABLOCK << EOD'
 while IFS= read line; do
     echo "$line"
+    current=$(echo "$line" | sed 's/.*,//')
+    MIN=${MIN:-$current}
+    MAX=${MAX:-$current}
+    if [[ "$current" -lt "$MIN" ]]; then
+        MIN="$current"
+    fi
+    if [[ "$current" -gt "$MAX" ]]; then
+        MAX="$current"
+    fi
 done
 echo "EOD"
+
+MAX=$(( MAX + MAX / 75 ))
+MIN=$(( MIN - MIN / 75 ))
+if [[ "$MIN" -lt 0 ]]; then
+    MIN=0
+fi
 
 echo 'set datafile separator ","'
 echo 'set terminal png size 1600,900'
@@ -18,7 +34,7 @@ echo 'set xdata time'
 echo 'set timefmt "%Y-%m-%d %H:%M:%S"'
 echo 'set format x "%Y-%m-%d"'
 echo 'set xtics rotate by 90 right'
-echo 'set yrange [0:*]'
+echo "set yrange [$MIN:$MAX]"
 echo 'set title "Total Duplication Across Time"'
 echo 'set key left bottom'
 echo 'plot $DATABLOCK using 1:2 with lines title "Total Lines of Duplication"'
