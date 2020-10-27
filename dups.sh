@@ -2,7 +2,7 @@
 
 # shellcheck source=.
 
-LANGUAGE=$1
+LANGUAGE=${1:-'java'}
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
