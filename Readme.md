@@ -57,13 +57,19 @@ Also, if you run this in a parent directory that contains multiple
 projects, then you'll see duplication between projects as well.
 
 ### Show change in duplication from last commit
-This requires a clean repo.
+If your repo is dirty (new/changed files and/or staged but not commited files):
+* This script will show the difference between current repo and the last commit
+* You will not be able to use the -b option to walk through previous commits
+
+If your repo is clean:
+* This script will show the difference between the most recent commit (HEAD) and the previous commit (HEAD^ or HEAD~1)
+
 ```bash
 $ ~/src/analysis_utils/last_commit_dups.sh
 lp-achievement                : Diff:        0 (   0%) Current:    3775 Previous:    3775 Commit: 4c946a793bdf934b00d8df8bd020168f424aa2c9 [2020-08-27 12:01:07 -0500]
 ```
 
-You can also provide -b and give a number to look at multiple commits.
+For clean repos, you can also provide -b and give a number to look at multiple commits.
 ```
 $ ~/src/analysis_utils/last_commit_dups.sh -b 10
 rpn_kata                      : Diff:       32 (   0%) Current:      32 Previous:       0 Commit: a76b4309759c5a98b7c541f2ec1c830a7debc4dd [2020-06-19 14:08:02 -0500]
