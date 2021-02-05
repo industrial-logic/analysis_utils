@@ -7,11 +7,7 @@ echo '$DATABLOCK << EOD'
 while IFS= read line; do
     echo "$line"
     current=$(echo "$line" | sed 's/.*,//')
-    MIN=${MIN:-$current}
     MAX=${MAX:-$current}
-    if [[ "$current" -lt "$MIN" ]]; then
-        MIN="$current"
-    fi
     if [[ "$current" -gt "$MAX" ]]; then
         MAX="$current"
     fi
@@ -19,10 +15,7 @@ done
 echo "EOD"
 
 MAX=$(( MAX + MAX / 75 ))
-MIN=$(( MIN - MIN / 75 ))
-if [[ "$MIN" -lt 0 ]]; then
-    MIN=0
-fi
+MIN=0
 
 echo 'set datafile separator ","'
 echo 'set terminal png size 1600,900'

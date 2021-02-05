@@ -1,15 +1,11 @@
 #!/usr/bin/awk -f
 
-BEGIN {
-  sum=0
-}
+BEGIN { sum=0 }
 
 {
     sum += $2
     next
 }
 
-END {
-    print sum
-}
+END { print sum }
 
