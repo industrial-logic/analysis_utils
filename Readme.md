@@ -94,3 +94,9 @@ This requires a clean repo.
 ~/src/analysis_utils/historical_duplication.sh > dup_report.txt
 ```
 
+### Look for unused code (Java only)
+This requires a clean repo.
+```
+~/bin/analysis_utils/run_pmd.sh unused.xml
+```
+
