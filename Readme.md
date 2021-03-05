@@ -97,6 +97,6 @@ This requires a clean repo.
 ### Look for unused code (Java only)
 This requires a clean repo.
 ```
-~/bin/analysis_utils/run_pmd.sh unused.xml
+~/src/analysis_utils/run_pmd.sh unused.xml > unused_report.txt
 ```
 
