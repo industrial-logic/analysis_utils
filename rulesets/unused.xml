@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<ruleset name="Custom Rules"
+    xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
+
+    <description>
+        Check for unused code
+    </description>
+
+    <rule ref="category/java/bestpractices.xml/UnusedPrivateField">
+        <properties>
+            <property name="ignoredAnnotations" value="java.lang.Deprecated" />
+            <property name="ignoredAnnotations"
+                      value="lombok.Setter|lombok.Getter|lombok.Builder|lombok.Data|lombok.RequiredArgsConstructor|lombok.AllArgsConstructor|lombok.Value|lombok.NoArgsConstructor|java.lang.Deprecated|javafx.fxml.FXML|lombok.experimental.Delegate|lombok.EqualsAndHashCode" />
+        </properties>
+    </rule>
+
+    <rule ref="category/java/bestpractices.xml/UnusedLocalVariable" />
+    <rule ref="category/java/bestpractices.xml/UnusedImports" />
+    <rule ref="category/java/bestpractices.xml/UnusedFormalParameter" />
+    <rule ref="category/java/bestpractices.xml/UnusedAssignment" />
+</ruleset>
