@@ -82,7 +82,13 @@ rpn_kata                      : Diff:        0 (   0%) Current:       0 Previous
 rpn_kata                      : Diff:        0 (   0%) Current:       0 Previous:       0 Commit: 9aa90cf68a33c9a25cbae13a0d62f5280c724886 [2020-05-28 14:51:59 -0500]
 ```
 
-### Look for cyclomatic complexity issues by each commit
+### Look for cyclomatic complexity issues on HEAD
+This requires a clean repo.
+```
+~/src/analysis_utils/run_pmd.sh cc.xml > cc_report.txt
+```
+
+### Look for cyclomatic complexity issues acorss each commit
 This requires a clean repo.
 ```
 ~/src/analysis_utils/pmd_walk.sh cc.xml > cc_report.txt

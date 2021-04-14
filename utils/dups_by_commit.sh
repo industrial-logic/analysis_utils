@@ -3,8 +3,10 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 function cleanup {
-    git checkout master 1>/dev/null 2>&1
+    git checkout "$ORIGINAL_BRANCH" 1>/dev/null 2>&1
 }
+
+ORIGINAL_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
 trap cleanup EXIT
 
